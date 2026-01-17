@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Focal Point Massage Therapy//Booking//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:fpmt-60-001@example.com
+DTSTAMP:20260107T000000Z
+SUMMARY:Focal Point Massage Therapy — 60 Minute Session
+DESCRIPTION:Requested booking. Please confirm with Laurie.\nPhone: 208-757-7646\nEmail: sandersonlaurie1@gmail.com
+LOCATION:In-office session
+DTSTART:20260110T160000
+DTEND:20260110T170000
+END:VEVENT
+END:VCALENDAR
+
