@@ -197,12 +197,6 @@ p{
   padding-right: 100px;
   gap:18px;
 }
-@media (max-width: 820px) {
-  .nav {
-    justify-content: space-between;
-    align-items: center;
-  }
-}
 
 .nav-links{
   display:flex; 
@@ -220,68 +214,18 @@ p{
 }
 .nav-toggle{
   display:none;
-  width:44px; 
-  height:44px; 
-
-  border-radius: 0%;
-  background:transparent;
-  border:none;
-
+  width:44px; height:44px; border-radius:14px;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--line);
   cursor:pointer;
-
-  display: flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:6px;
-
- -webkit-tap-highlight-color: transparent;
- 
-}
-.nav-toggle,
-.nav-toggle * {
-  -webkit-tap-highlight-color: transparent !important;
-}
-
-.nav-toggle {
-  background: transparent !important;
-  border: 0 !important;
-  outline: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-}
-
-.nav-toggle:focus,
-.nav-toggle:focus-visible,
-.nav-toggle:active {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-.nav-toggle:focus,
-.nav-toggle:focus-visible {
-  outline: none;
-  box-shadow: none;
 }
 .nav-toggle span{
   display:block; 
-  width: 22px;
-  height:3px; 
-  margin:0px; 
+  height:2px; 
+  margin:6px 10px; 
   background:rgba(255,255,255,.8); 
   border-radius:2px
 }
-@media (max-width: 820px){
-  .nav-toggle{ display:flex; }
-
-  .nav-links{ display:none; }
-  .nav-links.open{ display:flex; flex-direction:column; }
-}
-
-
-
 /* Brand */
 .brand{
   margin-left: auto;
@@ -780,10 +724,7 @@ input:focus, textarea:focus{
   .grid.three{grid-template-columns: 1fr}
   .split{grid-template-columns: 1fr}
   .contact-cards{grid-template-columns: 1fr}
-  .section-head{
-    flex-direction:column; 
-    align-items:flex-start
-  }
+  .section-head{flex-direction:column; align-items:flex-start}
 }
 
 @media (max-width: 820px){
@@ -798,41 +739,9 @@ input:focus, textarea:focus{
     border:1px solid var(--line);
     box-shadow: var(--shadow);
   }
-  .nav-links.open{
-    display:flex}
-
-  .nav-toggle{
-    display:block
-  }
+  .nav-links.open{display:flex}
+  .nav-toggle{display:block}
 }
-.nav-toggle {
-  display: none;
-  font-size: 28px;
-  line-height: 1;
-  background: transparent;
-  border: 0;
-  color: white;  /* change if needed */
-  cursor: pointer;
-}
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* Mobile only */
-@media (max-width: 820px) {
-  .nav-toggle {display: block;}
-
-  .nav-links {
-    display: none;
-  }
-
-  .nav-links.open {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
 
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -1045,9 +954,7 @@ p{
 }
 
 .btn{
-  display:inline-flex; 
-  align-items:center; 
-  justify-content:center;
+  display:inline-flex; align-items:center; justify-content:center;
   padding:12px 16px;
   background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
   color:#08101f;
@@ -1804,11 +1711,6 @@ footer.footer {
 /* Make the bullet marker visible (in case it’s inheriting transparent) */
 .service-bullets li::marker{
   color: var(--accent) !important;
-}
-@media (max-width: 820px) {
-  body {
-    font-size: 16px;
-  }
 }
 
 

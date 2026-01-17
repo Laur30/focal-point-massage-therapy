@@ -3,30 +3,23 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 // Mobile nav
 const toggle = document.querySelector(".nav-toggle");
+const links = document.querySelector(".nav-links");
+const nav = document.getElementById("primaryNav");
 
-document.addEventListener("DOMContentLoaded", () => {
-  const toggle = document.querySelector(".nav-toggle");
-  const nav = document.getElementById("primaryNav");
-
-  if (!toggle || !nav) return;
-
-  // Start closed on mobile
-  toggle.setAttribute("aria-expanded", "false");
-  nav.classList.remove("open");
-
+if (toggle && nav) {
   toggle.addEventListener("click", () => {
     const isOpen = nav.classList.toggle("open");
     toggle.setAttribute("aria-expanded", String(isOpen));
   });
 
-  // Optional: close menu when a link is clicked (mobile)
-  nav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
+  // Close menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!nav.contains(e.target) && !toggle.contains(e.target)) {
       nav.classList.remove("open");
       toggle.setAttribute("aria-expanded", "false");
-    });
+    }
   });
-});
+}
 
 
 toggle?.addEventListener("click", () => {
