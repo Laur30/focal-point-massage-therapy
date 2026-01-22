@@ -1623,6 +1623,17 @@ input:focus, textarea:focus{
   background-clip: text;
   color: transparent;
 }
+/* Center the credentials title and add clear space below it */
+#credentials .section-head {
+  text-align: center;
+  margin-bottom: 90px;  /* <- increase this (try 90–120px) */
+}
+
+/* If the grid has its own top spacing, remove it */
+#credentials .credentials-grid {
+  margin-top: 0;
+}
+
 @media (max-width: 820px){
   
   /* the whole credentials section gets better side padding */
