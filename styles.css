@@ -108,6 +108,12 @@ p{
   border-radius:12px; 
   z-index:999
 }
+.header {
+  border-radius: 22px;          /* bubbly but not cartoonish */
+  padding: 14px 24px 18px;
+  margin: 12px auto;
+  max-width: calc(100% - 24px); /* prevents edge clipping */
+}
 
 .header{
   padding:18px 0 40px
@@ -198,14 +204,30 @@ p{
   align-items:center;
   justify-content:space-between;
   gap:18px;
-  padding-right:100px;
+  padding-right:100px; /* remove the 100px shove */
+  flex-wrap: wrap;     /* helps at in-between widths */
 }
 
 .nav-links{
   display:flex;
   gap:18px;
   align-items:center;
-  justify-content:flex-end;
+  justify-content:center; /* was flex-end */
+  flex-wrap: wrap;        /* keeps Book inside background */
+  max-width: 100%;
+}
+.nav-links {
+  padding: 6px 14px;
+  border-radius: 999px; /* full pill */
+}
+
+.nav-links .btn{
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-links .btn {
+  border-radius: 999px;
+  padding: 6px 14px;
 }
 
 .nav-toggle{
@@ -302,10 +324,39 @@ p{
   flex-direction:column;
   line-height:1.1;
 }
+.brand-text {
+  /* inherits size/weight/line-height from .hero-headline */
+  letter-spacing: 0.18em;              /* keep some spread, but not too much */
+  text-transform: uppercase;
+
+  background: linear-gradient(90deg, #6cff00, #00d4ff, #8a5cff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 .brand-text span{
   color:var(--muted);
   font-size:30px;
+}
+.brand-text {
+  font-size: clamp(2.8rem, 6vw, 4rem);  /* SAME as hero h1 */
+  font-weight: 800;                    /* SAME */
+  line-height: 1.1;                    /* SAME */
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 32px;
+  margin-bottom: 20px;
+
+  /* keep your gradient */
+  background: linear-gradient(
+    90deg,
+    #6cff00,
+    #00d4ff,
+    #8a5cff
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 
@@ -353,6 +404,7 @@ p{
   background: radial-gradient(1000px 600px at 10% 0%,
     rgba(43,123,255,.12),
     rgba(0,0,0,0) 60%);
+    
 }
 
 .kicker{
@@ -1346,6 +1398,10 @@ input:focus, textarea:focus{
   position: relative;
   z-index: 1000;
 }
+.header {
+  padding-top: 40px;
+  padding-bottom: 24px;
+}
 
 /* Hero should sit BELOW the nav */
 .brand-hero,
@@ -1817,6 +1873,58 @@ footer.footer {
 .service-bullets li::marker{
   color: var(--accent) !important;
 }
+/* Desktop separators */
+.nav-links a {
+  position: relative;
+  padding: 0 0.75rem;
+}
+
+.nav-links a:not(:last-child)::after {
+  content: "|";
+  position: absolute;
+  right: 0;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Never show separator after the Book button */
+.nav-links a.btn::after {
+  content: none;
+}
+/* Mobile: remove ALL separators in hamburger */
+@media (max-width: 768px) {
+  .nav-links a::after {
+    content: none !important;
+  }
+}
+/* Desktop / full-screen: keep links centered under the title */
+@media (min-width: 769px) {
+  .nav {
+    justify-content: center !important;
+    padding-right: 0 !important;      /* kills the right shove */
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-links {
+    justify-content: center !important; /* was flex-end */
+    width: 100%;;
+  }
+  .nav-links a {
+  font-size: 0.85rem;
+}
+
+}
+/* Shared headline style (matches your hero h1 exactly) */
+.hero-headline {
+  font-size: clamp(3rem, 6vw, 4.2rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+  margin: 0 0 16px 0 !important;
+  text-align: center !important;
+}
+
+
 
 
 

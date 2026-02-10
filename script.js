@@ -64,4 +64,18 @@ ${details}
       window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
     });
   }
+// Close mobile nav after tapping a link
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    const nav = document.querySelector('.nav');               // your nav container
+    const navLinks = document.querySelector('.nav-links');    // the dropdown panel
+    const toggle = document.querySelector('.nav-toggle');     // hamburger button
+
+    // Only do this if your menu is currently open
+    navLinks?.classList.remove('open');
+    nav?.classList.remove('open');
+    toggle?.classList.remove('open');
+    toggle?.setAttribute('aria-expanded', 'false');
+  });
+});
 
