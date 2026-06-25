@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Book Appointment | Focal Point Massage Therapy</title>
+
+  <link rel="stylesheet" href="book.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <script type="module" src="book.js" defer></script>
+</head>
+
+<body>
+  <div class="booking-container">
+
+    <div class="logo-wrap">
+  <img
+    src="images/focal-point-therapy-monogram.png"
+    alt="Focal Point Massage Therapy"
+    class="booking-logo"
+  />
+</div>
+
+<h1 class="booking-title">
+  Book Your Session
+</h1>
+
+    <div class="top-action">
+      <a
+        href="client-dashboard.html"
+        class="small-link-btn"
+      >
+        <span class="calendar-icon">📅</span>
+        View My Appointments
+      </a>
+    </div>
+
+    <div class="service-options">
+
+      <button
+  type="button"
+  class="service-btn"
+  data-service="60 Minute Deep Tissue / Trigger Point"
+  data-duration="60"
+>
+  60 Minute Deep Tissue / Trigger Point
+</button>
+
+<button
+  type="button"
+  class="service-btn"
+  data-service="30 Minute Deep Tissue / Trigger Point"
+  data-duration="30"
+>
+  30 Minute Deep Tissue / Trigger Point
+</button>
+
+    </div>
+
+    <label class="cupping-option">
+      <input
+        type="checkbox"
+        id="cuppingAddon"
+      />
+
+      <span>
+        ✨ Include Free Cupping Add-On
+      </span>
+    </label>
+
+    <div class="calendar-wrap particle-zone">
+
+      <div class="neon-particles">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="calendar-header">
+        <button type="button" id="prevMonth">❮</button>
+
+        <h2 id="calendarMonth"></h2>
+
+        <button type="button" id="nextMonth">❯</button>
+      </div>
+
+      <div class="calendar-days">
+        <span>Sun</span>
+        <span>Mon</span>
+        <span>Tue</span>
+        <span>Wed</span>
+        <span>Thu</span>
+        <span>Fri</span>
+        <span>Sat</span>
+      </div>
+
+      <div id="calendarGrid" class="calendar-grid"></div>
+
+      <input
+        type="hidden"
+        id="bookingDate"
+      />
+
+    </div>
+
+    <div id="timeSlots" class="time-slots"></div>
+
+    <form id="bookingForm">
+
+      <input
+        type="text"
+        id="clientName"
+        placeholder="Full Name"
+        required
+      />
+
+      <input
+        type="email"
+        id="clientEmail"
+        placeholder="Email"
+        required
+      />
+
+      <input
+        type="tel"
+        id="clientPhone"
+        placeholder="Phone Number"
+        required
+      />
+
+      <textarea
+        id="notes"
+        placeholder="Anything you'd like me to know?"
+      ></textarea>
+
+      <button
+        type="submit"
+        class="submit-btn"
+      >
+        Confirm Appointment
+      </button>
+
+    </form>
+
+    <div id="confirmationMessage"></div>
+
+  </div>
+</body>
+</html>

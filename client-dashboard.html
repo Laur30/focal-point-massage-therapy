@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>My Appointments</title>
+
+  <link rel="stylesheet" href="book.css" />
+
+  <script
+    type="module"
+    src="client-dashboard.js"
+    defer
+  ></script>
+
+</head>
+
+<body>
+
+  <div class="booking-container">
+
+    <h1 class="booking-title">
+      My Appointments
+    </h1>
+
+    <div class="top-action">
+
+      <a
+        href="scheduler-test.html"
+        class="small-link-btn"
+      >
+        <span class="calendar-icon">
+          ✚
+        </span>
+
+        Book New Appointment
+      </a>
+
+    </div>
+
+    <button
+      id="logoutBtn"
+      class="delete-btn"
+    >
+      Logout
+    </button>
+
+    <div id="clientAppointments"></div>
+
+  </div>
+
+</body>
+</html>

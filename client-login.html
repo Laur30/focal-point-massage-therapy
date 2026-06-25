@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Client Login</title>
+
+  <link rel="stylesheet" href="book.css" />
+  <script type="module" src="client-login.js" defer></script>
+</head>
+
+<body>
+  <div class="booking-container">
+    <h1>Client Login</h1>
+
+    <form id="clientLoginForm">
+      <input type="email" id="clientEmail" placeholder="Email" required />
+      <input type="password" id="clientPassword" placeholder="Password" required />
+
+      <button type="submit" class="submit-btn">
+        Login
+      </button>
+    </form>
+
+    <p style="text-align:center; margin-top:20px;">
+      New here?
+      <a href="signup.html" style="color:#39FF14;">Create an account</a>
+    </p>
+
+    <div id="clientLoginMessage"></div>
+  </div>
+</body>
+</html>
