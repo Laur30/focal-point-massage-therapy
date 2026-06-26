@@ -256,17 +256,21 @@ saveBtn.addEventListener("click", async () => {
   }
 
   try {
-    await updateDoc(
-      doc(db, "appointments", appointmentId),
-      {
-        date: bookingDateInput.value,
-        time: selectedTime,
-        startMinutes: selectedStartMinutes,
-        cuppingAddon:
-          document.getElementById("cuppingAddon").checked,
-        updatedAt: new Date().toISOString()
-      }
-    );
+   await updateDoc(
+    doc(db, "appointments", appointmentId),
+    {
+    date: bookingDateInput.value,
+    time: selectedTime,
+    startMinutes: selectedStartMinutes,
+    cuppingAddon:
+      document.getElementById("cuppingAddon").checked,
+
+    reminderSent: false,
+    reminderSentAt: null,
+
+    updatedAt: new Date().toISOString()
+  }
+);
     await emailjs.send(
   "service_l51ekpl",
   "template_4l5qpcb",
