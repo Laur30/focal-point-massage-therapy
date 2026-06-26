@@ -823,3 +823,9 @@ textarea {
   color: #9dff8a;
   text-decoration: underline;
 }
+body.auth-loading {
+  visibility: hidden;
+}
+.top-action {
+  gap: 18px;
+}

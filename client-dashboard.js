@@ -43,6 +43,8 @@ onAuthStateChanged(
 
       return;
     }
+    
+    document.body.classList.remove("auth-loading");
 
     loadAppointments(user.uid);
   }
