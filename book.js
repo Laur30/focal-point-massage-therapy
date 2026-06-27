@@ -24,7 +24,7 @@ const bufferMinutes = 15;
 
 let selectedService = {
   name: "60 Minute Deep Tissue / Trigger Point",
-  duration: 60
+  duration: 60,
 };
 
 let selectedTime = null;
@@ -211,7 +211,23 @@ async function getBlockedTimesForMonth(year, month) {
 }
 
 function dayHasOpenSlot(dateString, weekday, bookings, blockedTimes) {
-  const { start, end } = availability[weekday];
+  const dayAvailability = availability[weekday];
+  
+  if (!dayAvailability) {
+    return false;
+  }
+
+  const { start, end } = dayAvailability;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const calendarDate = new Date(dateString + "T12:00:00");
+
+  if (calendarDate < today) {
+    return false;
+  }
+  
 
   for (let hour = start; hour < end; hour++) {
     for (let mins of [0, 15, 30, 45]) {
