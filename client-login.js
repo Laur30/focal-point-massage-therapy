@@ -20,9 +20,26 @@ form.addEventListener("submit", async (e) => {
 
     window.location.href = "client-dashboard.html";
 
-  } catch (error) {
-    console.error(error);
-    message.innerHTML = "Login failed. Check email/password.";
+    } catch (error) {
+    console.error("Login error:", error);
+
+    if (
+      error.code === "auth/invalid-credential" ||
+      error.code === "auth/wrong-password"
+    ) {
+      message.innerHTML =
+        "That email/password did not match. If you just reset your password, use the new password you created from the reset email.";
+    } else if (error.code === "auth/user-not-found") {
+      message.innerHTML =
+        "No account was found with that email. Please check the spelling or create an account.";
+    } else if (error.code === "auth/invalid-email") {
+      message.innerHTML = "Please enter a valid email address.";
+    } else if (error.code === "auth/too-many-requests") {
+      message.innerHTML =
+        "Too many attempts. Please wait a few minutes, then try again.";
+    } else {
+      message.innerHTML = `Login failed: ${error.message}`;
+    }
   }
 });
 const forgotPasswordBtn = document.getElementById("forgotPasswordBtn");
