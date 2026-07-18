@@ -22,6 +22,20 @@ const availability = {
 
 const bufferMinutes = 15;
 
+function formatPhoneNumber(phone) {
+  const digits = phone.replace(/\D/g, "");
+
+  if (digits.length === 10) {
+    return `+1${digits}`;
+  }
+
+  if (digits.length === 11 && digits.startsWith("1")) {
+    return `+${digits}`;
+  }
+
+  return phone;
+}
+
 let selectedService = {
   name: "60 Minute Deep Tissue / Trigger Point",
   duration: 60,
@@ -46,6 +60,7 @@ onAuthStateChanged(auth, (user) => {
   }
 
   currentUser = user;
+  prefillClientInfo(user);
 });
 
 document.getElementById("prevMonth").addEventListener("click", () => {
@@ -270,6 +285,74 @@ function dayHasOpenSlot(dateString, weekday, bookings, blockedTimes) {
   return false;
 }
 
+async function prefillClientInfo(user) {
+  const nameInput =
+    document.getElementById("name") ||
+    document.getElementById("clientName") ||
+    document.querySelector('input[placeholder="Full Name"]');
+
+  const emailInput =
+    document.getElementById("email") ||
+    document.getElementById("clientEmail") ||
+    document.querySelector('input[placeholder="Email"]');
+
+  const phoneInput =
+    document.getElementById("phone") ||
+    document.getElementById("clientPhone") ||
+    document.querySelector('input[placeholder="Phone Number"]');
+
+  if (emailInput && !emailInput.value) {
+    emailInput.value = user.email || "";
+  }
+
+  try {
+    const previousAppointments = await getDocs(
+      query(
+        collection(db, "appointments"),
+        where("userId", "==", user.uid)
+      )
+    );
+
+    let latestAppointment = null;
+
+    previousAppointments.forEach((doc) => {
+      const appointment = doc.data();
+
+      if (!latestAppointment) {
+        latestAppointment = appointment;
+        return;
+      }
+
+      const currentDate = appointment.createdAt || "";
+      const latestDate = latestAppointment.createdAt || "";
+
+      if (currentDate > latestDate) {
+        latestAppointment = appointment;
+      }
+    });
+
+    if (!latestAppointment) return;
+
+    if (nameInput && !nameInput.value) {
+      nameInput.value = latestAppointment.name || "";
+    }
+
+    if (phoneInput && !phoneInput.value) {
+      phoneInput.value = latestAppointment.phone || "";
+    }
+
+    if (emailInput && !emailInput.value) {
+      emailInput.value =
+        latestAppointment.clientEmail ||
+        latestAppointment.email ||
+        user.email ||
+        "";
+    }
+  } catch (error) {
+    console.error("Could not prefill client info:", error);
+  }
+}
+
 async function renderCalendar() {
   calendarGrid.innerHTML =
     "<p class='calendar-loading'>Loading calendar...</p>";
@@ -290,11 +373,16 @@ async function renderCalendar() {
   let monthlyBlockedTimes = [];
 
   try {
-    monthlyAppointments = await getAppointmentsForMonth(year, month);
-    monthlyBlockedTimes = await getBlockedTimesForMonth(year, month);
-  } catch (error) {
-    console.error("Month loading failed:", error);
-  }
+  monthlyAppointments = await getAppointmentsForMonth(year, month);
+  monthlyBlockedTimes = await getBlockedTimesForMonth(year, month);
+} catch (error) {
+  console.error("Month loading failed:", error);
+
+  calendarGrid.innerHTML =
+    "<p class='calendar-loading'>Calendar availability could not load. Please refresh the page.</p>";
+
+  return;
+}
 
   calendarGrid.innerHTML = "";
 
@@ -478,7 +566,9 @@ bookingForm.addEventListener("submit", async (e) => {
 
     name: document.getElementById("clientName").value.trim(),
     email: document.getElementById("clientEmail").value.trim(),
-    phone: document.getElementById("clientPhone").value.trim(),
+    phone: formatPhoneNumber(
+      document.getElementById("clientPhone").value.trim()
+    ),
     notes: document.getElementById("notes").value.trim(),
 
     cuppingAddon: document.getElementById("cuppingAddon").checked,
@@ -489,7 +579,19 @@ bookingForm.addEventListener("submit", async (e) => {
     time: selectedTime,
     startMinutes: selectedStartMinutes,
     status: "confirmed",
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+
+    appointmentStatus: "scheduled",
+    smsReminderSent: false,
+    smsReminderSentAt: null,
+
+    clientConfirmed: false,
+    confirmedAt: null,
+
+    cancellationRequested: false,
+    cancellationRequestedAt: null,
+
+    smsConsent: true
   };
 
   const googleCalendarLink =
