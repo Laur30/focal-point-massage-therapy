@@ -657,6 +657,8 @@ if (bookingForm) {
       email,
       clientEmail: email,
       phone,
+      phoneClient: phone,
+      smsTextReminder: true,
       service: selectedService.name,
       duration: selectedService.duration,
       date: bookingDateInput.value,
