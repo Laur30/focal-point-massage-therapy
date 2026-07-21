@@ -9,6 +9,8 @@ const admin = require("firebase-admin");
 const { google } = require("googleapis");
 const { onSchedule } = require("firebase-functions/v2/scheduler");
 const fetch = require("node-fetch");
+const { defineSecret } = require("firebase-functions/params");
+const TELNYX_API_KEY = defineSecret("TELNYX_API_KEY");
 
 admin.initializeApp();
 
@@ -262,8 +264,9 @@ function getChicagoDateString(daysAhead = 0) {
 
 exports.sendAppointmentReminders = onSchedule(
   {
-    schedule: "every day 08:00",
+    schedule: "every day 9:00",
     timeZone: "America/Chicago",
+    secrets: [TELNYX_API_KEY],
   },
 
   async () => {
@@ -368,8 +371,73 @@ for (const doc of tomorrowAppointments) {
       );
     }
 
+    if (!response.ok) {
+      throw new Error(
+        `EmailJS failed: ${response.status} ${resultText}`
+      );
+    }
+
+    const rawPhone =
+  appointment.clientPhone ||
+  appointment.phone ||
+  "";
+
+const phoneDigits = rawPhone.replace(/\D/g, "");
+
+let formattedPhone = "";
+
+if (phoneDigits.length === 10) {
+  formattedPhone = `+1${phoneDigits}`;
+} else if (
+  phoneDigits.length === 11 &&
+  phoneDigits.startsWith("1")
+) {
+  formattedPhone = `+${phoneDigits}`;
+}
+
+if (formattedPhone) {
+  const telnyxResponse = await fetch(
+    "https://api.telnyx.com/v2/messages",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${TELNYX_API_KEY.value()}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "+14322458690",
+        to: formattedPhone,
+        text:
+          `Focal Point Massage Therapy: Hi ${appointment.name || ""}, ` +
+          `this is a reminder of your appointment tomorrow at ${appointment.time}. ` +
+          `To cancel or reschedule, please sign into your Client Booking Portal.`,
+      }),
+    }
+  );
+
+  const telnyxResult = await telnyxResponse.json();
+
+  if (!telnyxResponse.ok) {
+    console.error("Telnyx SMS failed:", telnyxResult);
+
+    throw new Error(
+      telnyxResult?.errors?.[0]?.detail ||
+      "Telnyx SMS failed"
+    );
+  }
+
+  console.log(
+    "Telnyx reminder sent:",
+    telnyxResult.data?.id
+  );
+} else {
+  console.log(
+    `No valid phone number for appointment ${doc.id}. Email sent only.`
+  );
+}
+
     await doc.ref.update({
-      reminderSent: false,
+      reminderSent: true,
       reminderSentAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 
