@@ -664,7 +664,7 @@ if (appointmentSnapshot.empty) {
     timeStringToMinutes(googleTime.time);
 
   const endMinutes =
-    startMinutes + googleTime.duration + 30;
+    startMinutes + googleTime.duration + 15;
 
   await blockRef.set(
     {
