@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Schedule | Focal Point</title>
+
+  <link rel="stylesheet" href="book.css" />
+  <script type="module" src="admin.js" defer></script>
+</head>
+
+<body>
+  <div class="booking-container">
+    <h1>Admin Schedule</h1>
+
+    <button id="logoutBtn" class="delete-btn">
+      Logout
+    </button>
+
+    <button id="loadAppointments" class="submit-btn">
+      Load Appointments
+    </button>
+<div class="block-time-card">
+
+  <h2>Block Off Time</h2>
+
+ <label class="admin-label">Select Date to Block</label>
+
+<input
+  type="date"
+  id="blockDate"
+  class="pretty-date"
+/>
+
+  <select id="blockStart">
+    <option value="">Start Time</option>
+  </select>
+
+  <select id="blockEnd">
+    <option value="">End Time</option>
+  </select>
+
+  <input
+    type="text"
+    id="blockReason"
+    placeholder="Reason (optional)"
+  >
+
+  <button
+    id="saveBlockedTime"
+    class="submit-btn"
+  >
+    Save Blocked Time
+  </button>
+
+</div>
+
+<div class="block-time-card">
+  <h2>Blocked Times</h2>
+  <button id="loadBlockedTimes" class="submit-btn">
+    Load Blocked Times
+  </button>
+  <div id="blockedTimesList"></div>
+</div>
+
+    <div id="appointmentsList"></div>
+  </div>
+</body>
+</html>

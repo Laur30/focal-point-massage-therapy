@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book Appointment | Focal Point Massage Therapy</title>
+
+  <link rel="stylesheet" href="book.css" />
+
+  <script type="module" src="book.js" defer></script>
+</head>
+
+<body>
+
+<div class="booking-container">
+
+  <h1>Book Your Session</h1>
+
+  <div class="service-selection">
+
+    <button class="service-btn active"
+      data-service="60 Minute Deep Tissue / Trigger Point"
+      data-duration="60">
+      60 Minute Deep Tissue / Trigger Point
+    </button>
+
+    <button class="service-btn"
+      data-service="30 Minute Deep Tissue / Trigger Point"
+      data-duration="30">
+      30 Minute Deep Tissue / Trigger Point
+    </button>
+
+  </div>
+
+  <label class="checkbox-wrap">
+    <input type="checkbox" id="cuppingAddon">
+    Add Complimentary Cupping
+  </label>
+
+  <div class="date-wrap">
+    <label>Select Date</label>
+    <input type="date" id="bookingDate">
+  </div>
+
+  <div id="timeSlots" class="time-slots"></div>
+
+  <form id="bookingForm">
+
+    <input type="text" id="clientName" placeholder="Full Name" required />
+
+    <input type="email" id="clientEmail" placeholder="Email" required />
+
+    <input type="tel" id="clientPhone" placeholder="Phone Number" required />
+
+    <textarea
+      id="notes"
+      placeholder="Anything you'd like me to know?"
+    ></textarea>
+
+    <button type="submit" class="submit-btn">
+      Confirm Appointment
+    </button>
+
+  </form>
+
+  <div id="confirmationMessage"></div>
+
+</div>
+
+</body>
+</html>
