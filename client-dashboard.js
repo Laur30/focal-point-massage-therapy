@@ -79,12 +79,24 @@ async function loadAppointments(userId) {
       return;
     }
 
-    snapshot.forEach((docSnap) => {
+const appointments = snapshot.docs.map((docSnap) => ({
+  id: docSnap.id,
+  ...docSnap.data()
+}));
 
-      const appointment = {
-        id: docSnap.id,
-        ...docSnap.data()
-      };
+appointments.sort((a, b) => {
+
+  const dateCompare =
+    (a.date || "").localeCompare(b.date || "");
+
+  if (dateCompare !== 0) {
+    return dateCompare;
+  }
+
+  return (a.startMinutes || 0) - (b.startMinutes || 0);
+});
+
+    appointments.forEach((appointment) => {
 
       const card =
         document.createElement("div");
