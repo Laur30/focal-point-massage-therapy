@@ -287,17 +287,16 @@ exports.sendAppointmentReminders = onSchedule(
     console.log("Looking for appointments on:", tomorrowString);
 
     try {
+      const db = getFirestore();
+
+      const snapshot = await db
+       .collection("appointments")
+       .where("date", "==", tomorrowString)
+      .get();
       // Querying only by date avoids a possible compound-index problem.
-const db = getFirestore();
-
-const snapshot = await db
-  .collection("appointments")
-  .where("date", "==", tomorrowString)
-  .get();
-
-console.log("Tomorrow appointments found:", snapshot.size);
-
-const tomorrowAppointments = snapshot.docs;
+    console.log("Tomorrow appointments found:", snapshot.size);
+    
+    const tomorrowAppointments = snapshot.docs;
 
 console.log("Appointments for tomorrow:", tomorrowAppointments.length);
 
@@ -328,6 +327,7 @@ for (const doc of tomorrowAppointments) {
         }
         if (appointment.smsConsent !== true) {
           console.log("Skipping SMS - no consent:", doc.id);
+        }
 
         if (!appointment.clientEmail && !appointment.email) {
           console.log("No client email. Skipping.");
