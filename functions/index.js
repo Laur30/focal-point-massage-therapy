@@ -6,6 +6,7 @@ const {
 
 const { setGlobalOptions } = require("firebase-functions/v2");
 const admin = require("firebase-admin");
+const { getFirestore, FieldValue } = require("firebase-admin/firestore");
 let google;
 let calendar;
 const { onInit } = require("firebase-functions/v2/core");
@@ -275,7 +276,7 @@ function getChicagoDateString(daysAhead = 0) {
 
 exports.sendAppointmentReminders = onSchedule(
   {
-    schedule: "every day 9:00",
+    schedule: "every day 11:30",
     timeZone: "America/Chicago",
     secrets: [TELNYX_API_KEY],
   },
@@ -287,26 +288,16 @@ exports.sendAppointmentReminders = onSchedule(
 
     try {
       // Querying only by date avoids a possible compound-index problem.
-    const snapshot = await admin
-     .firestore()
-     .collection("appointments")
-     .get();
+const db = getFirestore();
 
-    console.log("Total appointments found:", snapshot.size);
+const snapshot = await db
+  .collection("appointments")
+  .where("date", "==", tomorrowString)
+  .get();
 
-    const tomorrowAppointments = snapshot.docs.filter((doc) => {
-     const appointment = doc.data();
+console.log("Tomorrow appointments found:", snapshot.size);
 
-     console.log("Appointment date check:", {
-     id: doc.id,
-     date: appointment.date,
-     status: appointment.status,
-     email: appointment.email,
-     reminderSent: appointment.reminderSent,
-    });
-
-  return appointment.date === tomorrowString;
-});
+const tomorrowAppointments = snapshot.docs;
 
 console.log("Appointments for tomorrow:", tomorrowAppointments.length);
 
@@ -335,6 +326,8 @@ for (const doc of tomorrowAppointments) {
           console.log("Reminder already sent. Skipping.");
           continue;
         }
+        if (appointment.smsConsent !== true) {
+          console.log("Skipping SMS - no consent:", doc.id);
 
         if (!appointment.clientEmail && !appointment.email) {
           console.log("No client email. Skipping.");
@@ -406,7 +399,7 @@ if (phoneDigits.length === 10) {
   formattedPhone = `+${phoneDigits}`;
 }
 
-if (formattedPhone) {
+if (formattedPhone && appointment.smsConsent === true) {
   const telnyxResponse = await fetch(
     "https://api.telnyx.com/v2/messages",
     {
@@ -416,7 +409,7 @@ if (formattedPhone) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "+14322458690",
+        from: "+14322771925",
         to: formattedPhone,
         text:
           `Focal Point Massage Therapy: Hi ${appointment.name || ""}, ` +
@@ -449,7 +442,7 @@ if (formattedPhone) {
 
     await doc.ref.update({
       reminderSent: true,
-      reminderSentAt: admin.firestore.FieldValue.serverTimestamp(),
+      reminderSentAt: FieldValue.serverTimestamp(),
     });
 
     console.log("Reminder successfully sent to:", recipientEmail);

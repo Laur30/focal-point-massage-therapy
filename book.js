@@ -625,7 +625,7 @@ if (bookingForm) {
       document.getElementById("clientPhone") ||
       document.getElementById("phone") ||
       document.querySelector('input[placeholder="Phone Number"]');
-
+    const smsConsentInput = document.getElementById("smsConsent");
     const notesInput =
       document.getElementById("notes") ||
       document.querySelector("textarea");
@@ -636,7 +636,7 @@ if (bookingForm) {
     const email = emailInput ? emailInput.value.trim() : "";
     const phone = phoneInput ? formatPhoneNumber(phoneInput.value.trim()) : "";
     const notes = notesInput ? notesInput.value.trim() : "";
-
+    const smsConsent = smsConsentInput ? smsConsentInput.checked : false;
     if (!name || !email || !phone) {
       alert("Please fill in your name, email, and phone number.");
       return;
@@ -658,7 +658,8 @@ if (bookingForm) {
       clientEmail: email,
       phone,
       phoneClient: phone,
-      smsTextReminder: true,
+      smsConsent: smsConsent,
+      smsTextReminder: smsConsent,
       service: selectedService.name,
       duration: selectedService.duration,
       date: bookingDateInput.value,
