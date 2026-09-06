@@ -414,7 +414,8 @@ if (formattedPhone && appointment.smsConsent === true) {
         text:
           `Focal Point Massage Therapy: Hi ${appointment.name || ""}, ` +
           `this is a reminder of your appointment tomorrow at ${appointment.time}. ` +
-          `To cancel or reschedule, please sign into your Client Booking Portal.`,
+          `To cancel or reschedule, please sign into your Client Booking Portal. ` +
+          `Reply STOP to opt out or HELP for help.`,
       }),
     }
   );
